@@ -11,15 +11,18 @@ app.use(express.static('dist'));
 
 
 const authConfig = {
-  consumerKey: 'MmkFJCacN0NoUl4DUkZKHFdQ4',
-  consumerSecret: 'Ao546qA9JAMFyMkdUgvhluWkITLg2Eac0XOyuMJkQ8EHZfkwR9',
-  accessToken: '2948033138-gfGz3ZoM2FWSjwnmELso8jLGlb4uCyPgrjvQopH',
-  accessTokenSecret: 'jzYHyDXzDV9xDEdU5Nzusv1KYtCTvSb311Urw37ik5u8e'
+  consumer_key: '2NxkwQadYovC3FvxSaPpVyeGj',
+  consumer_secret: 'PGSzU4DfiJuN4fb86gRZi7CxsOE1qElEutItuy3E1yG1GLh8BB',
+  access_token: '2948033138-r4CzYPVtbNmf60FmELES82CBQPqJcLTfsCfvfe1',
+  access_token_secret: 'R4UYCYbb0wBdkwI0Zz9TGROlWqS4cqh9NhPUyWmqmthbZ',
+  timeout_ms: 60 * 1000
 };
 
 const user = {
   id: 1, username: 'test', name: 'Justin Bieber', handle: '@justinbieber'
 };
+
+const Twitter = new Twit(authConfig);
 
 
 // passport.use(new TwitterTokenStrategy({
@@ -40,13 +43,6 @@ const user = {
 //   oauth_token="access-token-for-authed-user", oauth_version="1.0"'
 
 
-const Twitter = new Twit({
-  consumerKey,
-  consumerSecret,
-  accessToken,
-  accessTokenSecret,
-  timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
-});
 
 console.log(Twitter);
 
