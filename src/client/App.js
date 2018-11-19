@@ -6,9 +6,9 @@ export default class App extends Component {
 
   // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
-    // fetch('/api/getUsername')
-    //   .then(res => res.json())
-    //   .then(user => this.setState({ username: user.username }));
+    fetch('/api/tweets')
+      .then(res => res.json())
+      .then(tweets => this.setState({ tweets }));
   }
 
   render() {
@@ -24,3 +24,23 @@ Tweets go here :
     );
   }
 }
+
+{ /* <div className="posts-container">
+            <div className="post">
+                    <h1 id="single-title" className="title">{post.title}</h1>
+                    { post.image ? <img src ={post.image} /> : null}
+            <div className="post-text" id="single-text" dangerouslySetInnerHTML={htmlText} />
+        </div>
+            <div className="post-data" id="single-date">{formatDate(post.createdAt)}</div>
+        </div> */ }
+
+// if(tweetData){
+//   if(tweetData.length){
+//       tweetNodes = tweetData.map(function(tweet, index) {
+//         return (
+//           <SingleTweet key={index} id = {tweet.id} text = {tweet.text}> </SingleTweet>
+//           );
+
+//         });
+//   } else return (<div> We couldn't find any happy tweets. :( </div>)
+// }
