@@ -7,7 +7,10 @@ export default class App extends Component {
   // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
     fetch('/api/tweets')
-      .then(res => res.json())
+      .then((res) => {
+        console.log(res, 'response on front end');
+        res.json();
+      })
       .then(tweets => this.setState({ tweets }));
   }
 
