@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
 import './app.css';
-import ReactImage from './react.png';
+import axios from 'axios';
+import { ifError } from 'assert';
+import SingleTweet from './singleTweet.js';
 
 export default class App extends Component {
-  state = { username: null };
+  state = { tweets: [1, 2, 3, 4, 5] };
 
+  // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
-    fetch('/api/getUsername')
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
+    this.pullServer();
   }
 
+  pullServer() {
+    fetch('http://localhost:8080/api/tweets')
+      .then((req, res) => {
+        console.log('hit!');
+        console.log(res, 'res?');
+        if (res) {
+          this.setState({ tweets: res });
+        }
+      });
+    setInterval(this.pullServer, 60000);
+  }
+
+
   render() {
-    const { username } = this.state;
+    const { tweets } = this.state;
+    // tweets.length = 5;
     return (
       <div>
-        {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        <img src={ReactImage} alt="react" />
+        {tweets ? <h1>TweetReader</h1> : <h1>Loading.. please wait!</h1>}
+        <div id="text-display">
+
+          {tweets.map(function (value) {
+            return <SingleTweet url= {value.url} content={value.content} retweets= {value.retweets} img={value.imgUrl} />;
+          })}
+        </div>
       </div>
     );
   }
