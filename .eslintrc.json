@@ -8,6 +8,8 @@
   "rules": {
     "no-console": "off",
     "comma-dangle": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "class-methods-use-this": "off",
+    "prefer-arrow-callback": "off"
   }
 }

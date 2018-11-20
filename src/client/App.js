@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import './app.css';
+import axios from 'axios';
 
 export default class App extends Component {
   state = { tweets: [] };
 
   // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
-    fetch('/api/tweets')
-      .then((res) => {
-        console.log(res, 'response on front end');
-        res.json();
-      })
-      .then(tweets => this.setState({ tweets }));
+    this.pullServer();
+  }
+
+  pullServer() {
+    axios.get('/api/tweets')
+      .then((req, res) => {
+        this.setState({ tweets: res.data });
+      });
+    setInterval(this.pullServer, 60000)
+    ;
   }
 
   render() {
@@ -28,14 +33,14 @@ Tweets go here :
   }
 }
 
-{ /* <div className="posts-container">
+/* <div className="posts-container">
             <div className="post">
                     <h1 id="single-title" className="title">{post.title}</h1>
                     { post.image ? <img src ={post.image} /> : null}
             <div className="post-text" id="single-text" dangerouslySetInnerHTML={htmlText} />
         </div>
             <div className="post-data" id="single-date">{formatDate(post.createdAt)}</div>
-        </div> */ }
+        </div> */
 
 // if(tweetData){
 //   if(tweetData.length){

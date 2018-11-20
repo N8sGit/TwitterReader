@@ -1,13 +1,15 @@
 const express = require('express');
 const os = require('os');
 const Twit = require('twit');
-const passport = require('passport');
-const TwitterTokenStrategy = require('passport-twitter-token');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
 
 const app = express();
 
 app.use(express.static('dist'));
+app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const authConfig = {
@@ -22,36 +24,34 @@ const user = {
   id: 1, username: 'test', name: 'Justin Bieber', handle: '@justinbieber'
 };
 
-const Twitter = new Twit(authConfig);
 
-
-// passport.use(new TwitterTokenStrategy({
-//   consumerKey,
-//   consumerSecret,
-//   includeEmail: false
-// }),
-// async (token, tokenSecret, profile, done) => {
-//     console.log(token, tokenSecret, 'token plus secret' );
-//     return done(null);
-// });
-
-// --request GET
-//   --url 'https://api.twitter.com/1.1/users/search.json?q=soccer'
-//   --header 'authorization: OAuth oauth_consumer_key="consumer-key-for-app",
-//   oauth_nonce="generated-nonce", oauth_signature="generated-signature",
-//   oauth_signature_method="HMAC-SHA1", oauth_timestamp="generated-timestamp",
-//   oauth_token="access-token-for-authed-user", oauth_version="1.0"'
-
-
-
-console.log(Twitter);
-
-Twitter.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 }, (err, data, response) => {
-  console.log(data);
+app.use(function(req, res, next) {
+    console.dir(req.path, '\n all paths')
+    next();
 });
 
-app.get(`https://api.twitter.com/1.1/users/search.json?q=${user.name}`, (req, res) => {
-  console.log(res);
+const Twitter = new Twit(authConfig);
+
+axios.get('/api/tweets', (req, res) => {
+  console.log('ROUTE HIT!!! !!!');
+  Twitter.get('https://api.twitter.com/1.1/users/show.json?screen_name=justinbieber', (req, res) => {
+    console.log(res, 'Twitter get log');
+    res.send({ data: res.data });
+    //   - user name
+    // - user screen name (@whatever)
+    // - user profile image
+    // - tweet content
+    // - number of retweets
+    // - direct link to the tweet
+  });
+});
+
+// Twitter.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 }, (err, data, response) => {
+//   console.log(data, "DATA");
+// });
+
+Twitter.get('https://api.twitter.com/1.1/users/show.json?screen_name=justinbieber', (req, res) => {
+  console.log(res, 'Bieber');
 //   - user name
 // - user screen name (@whatever)
 // - user profile image
@@ -59,6 +59,20 @@ app.get(`https://api.twitter.com/1.1/users/search.json?q=${user.name}`, (req, re
 // - number of retweets
 // - direct link to the tweet
 });
+
+// $ curl --request GET
+//   --url 'https://api.twitter.com/1.1/users/show.json?screen_name=twitterdev'
+//   --header 'authorization: OAuth oauth_consumer_key="consumer-key-for-app",
+//   oauth_nonce="generated-nonce", oauth_signature="generated-signature",
+//   oauth_signature_method="HMAC-SHA1", oauth_timestamp="generated-timestamp",
+//   oauth_version="1.0"'
+
+// $ curl --request GET
+//   --url 'https://api.twitter.com/1.1/users/show.json?screen_name=twitterdev'
+//   --header 'authorization: OAuth oauth_consumer_key="consumer-key-for-app",
+//   oauth_nonce="generated-nonce", oauth_signature="generated-signature",
+//   oauth_signature_method="HMAC-SHA1", oauth_timestamp="generated-timestamp",
+//   oauth_version="1.0"'
 
 // Twitter.get('search/tweets', {q: queryString, count: NoUpperBounds ? 100 : 1000}, function(err, data, response){
 //     var tweets = data
