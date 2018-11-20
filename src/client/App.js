@@ -5,7 +5,7 @@ import { ifError } from 'assert';
 import SingleTweet from './singleTweet.js';
 
 export default class App extends Component {
-  state = { tweets: [1, 2, 3] };
+  state = { tweets: [1, 2, 3, 4, 5] };
 
   // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
