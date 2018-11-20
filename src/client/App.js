@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import './app.css';
 import axios from 'axios';
+import SingleTweet from './singleTweet.js';
+
+// const config = {
+//   headers: {
+//     header1: ' http://localhost:8080/api/tweets',
+//   }
+// };
+
+const data = {
+  HTTP_CONTENT_LANGUAGE: self.language
+};
+console.log(axios.defaults.headers);
 
 export default class App extends Component {
-  state = { tweets: [] };
+  state = { tweets: [1,2,3] };
 
   // tweets here will be processed without regards for template just an array of templated objects
   componentDidMount() {
@@ -11,21 +23,24 @@ export default class App extends Component {
   }
 
   pullServer() {
-    axios.get('/api/tweets')
+    axios.get('/')
       .then((req, res) => {
-        this.setState({ tweets: res.data });
-      });
+        console.log(res, 'res?');
+      }).catch(err => console.log(err));
     setInterval(this.pullServer, 60000);
   }
 
   render() {
     const { tweets } = this.state;
+    tweets.length = 3;
     return (
       <div>
         {tweets ? <h1>Welcome</h1> : <h1>Loading.. please wait!</h1>}
         <div id="text-display">
 Tweets go here :
-          {tweets}
+          {tweets.map(function (value) {
+            return <SingleTweet />;
+          })}
         </div>
       </div>
     );

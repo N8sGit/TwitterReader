@@ -4,24 +4,36 @@ const Twit = require('twit');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
-et axiosDefaults = require('axios/lib/defaults');
-axiosDefaults.baseURL = '';
+const cors = require('cors');
 
 
 const app = express();
+app.use(cors());
+// app.use(express.static('dist'));
+// app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
+// app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('dist'));
-app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.get('/', function (req, res) {
+//   res.sendFile(path.resolve(__dirname, './public/index.html'));
+// });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve(__dirname, './public/index.html'));
-});
+// app.get('/bundle.js', function (req, res) {
+//   console.log('bundle server hit');
+//   res.sendFile(path.resolve(__dirname, './public/bundle.js'));
+// });
 
-app.get('/bundle.js', function (req, res) {
-  console.log('bundle server hit');
-  res.sendFile(path.resolve(__dirname, './public/bundle.js'));
-});
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
+
+
+let corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+};
+
 
 const authConfig = {
   consumer_key: '2NxkwQadYovC3FvxSaPpVyeGj',
@@ -41,9 +53,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 const Twitter = new Twit(authConfig);
 
-axios.get('/api/tweets', (req, res) => {
+axios.get('/', cors(corsOptions), (req, res) => {
   console.log('ROUTE HIT!!! !!!');
   Twitter.get('https://api.twitter.com/1.1/users/show.json?screen_name=justinbieber', (req, res) => {
     console.log(res, 'Twitter get log');
