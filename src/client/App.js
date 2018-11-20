@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './app.css';
 import axios from 'axios';
+import { ifError } from 'assert';
 import SingleTweet from './singleTweet.js';
 
 export default class App extends Component {
@@ -12,32 +13,28 @@ export default class App extends Component {
   }
 
   pullServer() {
-    console.log('hi');
     fetch('http://localhost:8080/api/tweets')
       .then((req, res) => {
         console.log('hit!');
         console.log(res, 'res?');
+        if (res) {
+          this.setState({ tweets: res });
+        }
       });
+    setInterval(this.pullServer, 60000);
   }
 
 
-  //     axios.get('/')
-  //     .then((req, res) => {
-  //       console.log(res, 'res?');
-  //     }).catch(err => console.log(err));
-  //   setInterval(this.pullServer, 60000);
-  // }
-
   render() {
     const { tweets } = this.state;
-    tweets.length = 3;
+    // tweets.length = 5;
     return (
       <div>
         {tweets ? <h1>TweetReader</h1> : <h1>Loading.. please wait!</h1>}
         <div id="text-display">
 
           {tweets.map(function (value) {
-            return <SingleTweet />;
+            return <SingleTweet url= {value.url} content={value.content} retweets= {value.retweets} img={value.imgUrl} />;
           })}
         </div>
       </div>

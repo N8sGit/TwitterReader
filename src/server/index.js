@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
 
 const Twitter = new Twit(authConfig);
 
-app.get('/api/tweets', (req, res) => {
+app.get('http://localhost:8080/api/tweets', (req, res) => {
   Twitter.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=justinbieber&count=5', (req, res) => {
     // console.log(res, 'Twitter get log');
     let data = Array.from(res)
@@ -65,15 +65,7 @@ app.get('/api/tweets', (req, res) => {
         return {content: value.text, url: value.user.url, retweets: value.retweet_count, imgUrl: value.user.profile_image_url }
     })
     console.log(result, 'result')
-    // let dataSlice = data.slice(0,6)
-    // console.log(dataSlice, 'slice')
-   
-    //   - user name
-    // - user screen name (@whatever)
-    // - user profile image
-    // - tweet content
-    // - number of retweets
-    // - direct link to the tweet
+
     return result;
   }).then(function (result) {
     res.send(result);

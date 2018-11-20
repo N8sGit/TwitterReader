@@ -16,6 +16,7 @@ export default class TweetCard extends Component {
 
 
   render() {
+    console.log(this.props);
     return (
       <div>
        
