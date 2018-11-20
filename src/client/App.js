@@ -15,8 +15,7 @@ export default class App extends Component {
       .then((req, res) => {
         this.setState({ tweets: res.data });
       });
-    setInterval(this.pullServer, 60000)
-    ;
+    setInterval(this.pullServer, 60000);
   }
 
   render() {

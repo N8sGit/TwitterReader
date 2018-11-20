@@ -3,6 +3,9 @@ const os = require('os');
 const Twit = require('twit');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const path = require('path');
+et axiosDefaults = require('axios/lib/defaults');
+axiosDefaults.baseURL = '';
 
 
 const app = express();
@@ -11,6 +14,14 @@ app.use(express.static('dist'));
 app.use(bodyParser.json({ type: '*/*' })); // Parses incoming requests as JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname, './public/index.html'));
+});
+
+app.get('/bundle.js', function (req, res) {
+  console.log('bundle server hit');
+  res.sendFile(path.resolve(__dirname, './public/bundle.js'));
+});
 
 const authConfig = {
   consumer_key: '2NxkwQadYovC3FvxSaPpVyeGj',
@@ -25,9 +36,9 @@ const user = {
 };
 
 
-app.use(function(req, res, next) {
-    console.dir(req.path, '\n all paths')
-    next();
+app.use(function (req, res, next) {
+  console.dir(req.path, '\n all paths');
+  next();
 });
 
 const Twitter = new Twit(authConfig);
