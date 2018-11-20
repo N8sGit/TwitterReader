@@ -24,13 +24,13 @@ export default class TweetCard extends Component {
           <div className="leftcolumn">
          
             <div className="card">
-             <div className="fakeimg">Image</div>
-              <h2>{this.state.username}</h2>
-              
-
-              <p>{this.state.content}</p>
-              <h5>{this.state.screenname} {this.state.retweets}</h5>
-              <h5> link: <a href="example.com">{this.state.link}</a></h5>
+              <div className="fakeimg">Image</div>
+              <div className='card-elements'> 
+                <h2>{this.state.username}</h2>
+                <p>{this.state.content}</p>
+                <h5>{this.state.screenname} {this.state.retweets}</h5>
+                <h5> link: <a href="example.com">{this.state.link}</a></h5>
+              </div>
             </div>
             
           </div>

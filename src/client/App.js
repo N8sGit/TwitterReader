@@ -35,9 +35,9 @@ export default class App extends Component {
     tweets.length = 3;
     return (
       <div>
-        {tweets ? <h1>Welcome</h1> : <h1>Loading.. please wait!</h1>}
+        {tweets ? <h1>TweetReader</h1> : <h1>Loading.. please wait!</h1>}
         <div id="text-display">
-Tweets go here :
+                  
           {tweets.map(function (value) {
             return <SingleTweet />;
           })}
